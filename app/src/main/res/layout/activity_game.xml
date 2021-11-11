@@ -12,8 +12,7 @@
     <TextView
         android:id="@+id/titleText"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.5"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:text="TIC TAC TOENAIL"
         android:textSize="48sp" />
@@ -21,8 +20,7 @@
     <TextView
         android:id="@+id/turnText"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Player's Turn"
         android:textSize="40sp" />
@@ -30,11 +28,10 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_weight="5"
+        android:layout_weight="1"
+        android:background="@drawable/board"
         android:gravity="center_horizontal|center_vertical"
-        android:stretchColumns="*">
+        android:weightSum="3">
 
         <TableRow
             android:layout_width="match_parent"
@@ -42,24 +39,27 @@
 
             <ImageView
                 android:id="@+id/imageView1_1"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
-                app:srcCompat="@android:drawable/btn_dialog" />
+                app:srcCompat="@drawable/blank" />
 
             <ImageView
                 android:id="@+id/imageView1_2"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
-                app:srcCompat="@android:drawable/btn_dialog" />
+                app:srcCompat="@drawable/blank" />
 
             <ImageView
                 android:id="@+id/imageView1_3"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
-                app:srcCompat="@android:drawable/btn_dialog" />
+                app:srcCompat="@drawable/blank" />
         </TableRow>
 
         <TableRow
@@ -68,24 +68,27 @@
 
             <ImageView
                 android:id="@+id/imageView2_1"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
-                app:srcCompat="@android:drawable/btn_dialog" />
+                app:srcCompat="@drawable/blank" />
 
             <ImageView
                 android:id="@+id/imageView2_2"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
-                app:srcCompat="@android:drawable/btn_dialog" />
+                app:srcCompat="@drawable/blank" />
 
             <ImageView
                 android:id="@+id/imageView2_3"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
-                app:srcCompat="@android:drawable/btn_dialog" />
+                app:srcCompat="@drawable/blank" />
         </TableRow>
 
         <TableRow
@@ -94,42 +97,43 @@
 
             <ImageView
                 android:id="@+id/imageView3_1"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
-                app:srcCompat="@android:drawable/btn_dialog" />
+                app:srcCompat="@drawable/blank" />
 
             <ImageView
                 android:id="@+id/imageView3_2"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
-                app:srcCompat="@android:drawable/btn_dialog" />
+                app:srcCompat="@drawable/blank" />
 
             <ImageView
                 android:id="@+id/imageView3_3"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
-                app:srcCompat="@android:drawable/btn_dialog" />
+                app:srcCompat="@drawable/blank" />
         </TableRow>
 
     </TableLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/playQuitButton"
+            android:id="@+id/gameQuitButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="QUIT"
-            style="@style/portraitMenuButton"
-            android:textSize="30sp" />
+            android:textSize="20sp" />
 
     </LinearLayout>
 

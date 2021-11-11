@@ -26,7 +26,7 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/menuPlayButton"
             style="@style/portraitMenuButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/menuSettingsButton"
             style="@style/portraitMenuButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,26 +56,11 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/menuScoresButton"
             style="@style/portraitMenuButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="SCORES" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/button6"
-            style="@style/portraitMenuButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="EXIT" />
     </LinearLayout>
 
 </LinearLayout>
