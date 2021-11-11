@@ -3,11 +3,11 @@ package com.jessedean.tictactoe;
 public class GameBoard {
 
     final int BLANK = -1;
-    int ai;
-    int player1;
-    int player2;
-    int [][] board;
-    int winner;
+    protected int ai;
+    protected int player1;
+    protected int player2;
+    protected int [][] board;
+    protected int winner;
 
     //Constructor. Sets up a new board with every space set to blank
     public GameBoard(int ai, int player1, int player2) {
@@ -20,18 +20,19 @@ public class GameBoard {
         this.ai = ai;
         this.player1 = player1;
         this.player2 = player2;
-
         winner = BLANK;
     }
 
     //Assign a move to the board if it is valid
-    public boolean playMove(int col, int row, int player) {
-        boolean legalMove = false;
-        if(board[col][row] == BLANK && (player == ai || player == player1 || player == player2)) {
+    public void playMove(int col, int row, int player) {
+        if(isValidMove(col, row) && (player == ai || player == player1 || player == player2)) {
             board[col][row] = player;
-            legalMove = true;
         }
-        return legalMove;
+    }
+
+    //Returns true if the passed coordinates are empty
+    public boolean isValidMove(int col, int row) {
+        return board[col][row] == BLANK;
     }
 
     //Check if the game is over, and returns the winner if there is one, -1 if not
@@ -65,17 +66,17 @@ public class GameBoard {
             }
         }
         //Check for diagonal win
-        if(winner != BLANK && board [1][1] != BLANK) {
+        if(winner == BLANK && board [1][1] != BLANK) {
             if((board[0][0] == board[1][1] && board [0][0] == board [2][2]) || (board[0][2] == board[1][1] && board[0][2] == board[2][0])) {
                 winner = board[1][1];
                 gameOver = true;
             }
         }
 
-
         return gameOver;
     }
 
+    //Return the winner of the game (a draw is counted as a blank winner)
     public int getWinner() {
         return winner;
     }

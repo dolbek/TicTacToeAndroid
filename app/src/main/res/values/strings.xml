@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Tic Tac Toe</string>
+
+    <string name="player1Key">String key for player 1</string>
+    <string name="player2Key">String key for player 2</string>
+    <string name="aiMode">String key for AI mode</string>
+    <string name="namesKey">String key for names</string>
+    <string name="scoresKey">String key for scores</string>
+
+    <string name="prefKey">String key for shared preferences</string>
+
+    <string name="playerCount">Game Type:</string>
+    <string name="cancel">Cancel</string>
+    <string name="twoPlayer">Two Player</string>
+    <string name="onePlayer">One Player</string>
 </resources>

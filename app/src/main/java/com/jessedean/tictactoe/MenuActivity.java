@@ -1,13 +1,15 @@
 package com.jessedean.tictactoe;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
+public class MenuActivity extends AppCompatActivity implements View.OnClickListener, PlayerNumberFragment.SelectionInterface {
 
     Button playButton;
     Button settingsButton;
@@ -43,9 +45,9 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void clickPlay() {
-        Intent playIntent = new Intent(this, GameActivity.class);
-        startActivity(playIntent);
-        this.finish();
+        FragmentManager fragMan = getSupportFragmentManager();
+        PlayerNumberFragment dialogue = new PlayerNumberFragment();
+        dialogue.show(fragMan, "players");
     }
 
     private void setButtons() {
@@ -57,5 +59,26 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         for (Button button : buttons) {
             button.setOnClickListener(this);
         }
+    }
+
+    @Override
+    public void cancelSelect(DialogFragment dialog) {
+        //Cancel
+    }
+
+    @Override
+    public void onePlayerSelect(DialogFragment dialog) {
+        Intent playIntent = new Intent(this, GameActivity.class);
+        playIntent.putExtra("aiGame", true);
+        startActivity(playIntent);
+        this.finish();
+    }
+
+    @Override
+    public void twoPlayerSelect(DialogFragment dialog) {
+        Intent playIntent = new Intent(this, GameActivity.class);
+        playIntent.putExtra("aiGame", false);
+        startActivity(playIntent);
+        this.finish();
     }
 }
