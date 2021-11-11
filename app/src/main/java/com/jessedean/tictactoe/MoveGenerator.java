@@ -1,27 +1,36 @@
 package com.jessedean.tictactoe;
 
-public class MoveGenerator {
+import android.util.Log;
+import android.widget.Toast;
+
+import java.util.concurrent.Callable;
+
+public class MoveGenerator implements Callable<int[]> {
 
     int [] move;
     boolean smartMoves;
+    GameBoard board;
+    int id;
 
     //Constructor
-    public MoveGenerator(boolean smart) {
+    public MoveGenerator(GameBoard board, int id, boolean smart) {
         move = new int[2];
+        this.board = board;
+        this.id = id;
         smartMoves = smart;
     }
 
     //Calls the appropriate move generation method
-    public int[] generateMove(GameBoard board, int id) {
+    public int[] generateMove() {
         if(smartMoves)
-            move = generateOptimalMove(board, id);
+            move = generateOptimalMove();
         else
-            move = generateRandomMove(board);
+            move = generateRandomMove();
         return move;
     }
 
     //Generates a random valid move
-    private int[] generateRandomMove(GameBoard board) {
+    private int[] generateRandomMove() {
 
         int [] move = new int[2];
 
@@ -33,7 +42,7 @@ public class MoveGenerator {
     }
 
     //Determines the optimal move for the given player
-    private int[] generateOptimalMove(GameBoard board, int id) {
+    private int[] generateOptimalMove() {
 
         int[][] boardState = board.getBoardState();
         int[] blockingMove = {-1, -1};
@@ -215,5 +224,11 @@ public class MoveGenerator {
         else
             move = bestMove;
         return move;
+    }
+
+    //Used to call the class in a separate thread
+    @Override
+    public int[] call() {
+        return generateMove();
     }
 }

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,6 +15,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class GameActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -54,7 +63,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     final int PLAYER2 = 2;
 
     private boolean aiGame;
-
+    private boolean hardAi;
 
     private int currentPlayer;
     private boolean gameOver;
@@ -86,11 +95,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         names = new String[]{AI_NAME, player1Name, player2Name};
 
         //Determines AI mode
-        boolean hardAi;
+
         hardAi = settings.getBoolean(res.getString(R.string.aiMode), false);
         aiGame = getIntent().getBooleanExtra("aiGame", false);
-        if (aiGame)
-            ai = new MoveGenerator(hardAi);
 
         //Determine first player
         boolean playerFirst = settings.getBoolean(res.getString(R.string.playerFirstKey), true);
@@ -211,34 +218,29 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         turnLabel.setText(label);
     }
 
-    //Listener for generating AI move
-    public interface Listener<T> {
-        void onResult(T result);
-    }
-
-    private Listener listener;
-
     //Generate and play a move for the AI
     private void aiTurn() {
-        generateMove(new Listener<int[]>() {
-            @Override
-            public void onResult(int[] result) {
-                playMove(result[0], result[1]);
-            }
-        });
+        int[] move = {-1, -1};
+        try {
+            move = generateMove();
+        }
+        catch(InterruptedException e) {
+            e.printStackTrace();
+        }
+        catch(ExecutionException e) {
+            e.printStackTrace();
+        }
+        playMove(move[0], move[1]);
     }
 
     //Generate a move in a separate thread
-    private void generateMove(Listener<int[]> onResultListener) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                onResultListener.onResult(ai.generateMove(board, AI));
-            }
-        }).start();
+    private int[] generateMove() throws InterruptedException, ExecutionException {
+        ExecutorService executor = Executors.newFixedThreadPool(1);
+        Future<int[]> result;
+        MoveGenerator ai = new MoveGenerator(board, AI, hardAi);
+        result = executor.submit(ai);
+        return result.get();
     }
-
-
 
     //Set the correct image for the played move
     private void setMoveImage(int col, int row, int player) {
@@ -248,10 +250,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             imageGrid[col][row].setBackgroundResource(R.drawable.o);
     }
 
-
     //Handle end of game
     private void winGame(int winner) {
-
         if(winner >= 0) {
             Toast.makeText(getBaseContext(), names[winner] + " wins!", Toast.LENGTH_SHORT).show();
 
