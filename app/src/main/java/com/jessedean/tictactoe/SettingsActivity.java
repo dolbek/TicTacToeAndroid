@@ -21,11 +21,14 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     String player1Name;
     String player2Name;
     boolean hardAI;
+    boolean playerFirst;
 
     Button saveButton;
+    Button cancelButton;
     EditText player1EditText;
     EditText player2EditText;
     CheckBox hardAICheck;
+    CheckBox playerFirstCheck;
 
     Resources res;
 
@@ -41,20 +44,25 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
         saveButton = findViewById(R.id.settingsSaveButton);
         saveButton.setOnClickListener(this);
+        cancelButton = findViewById(R.id.settingsCancelButton);
+        cancelButton.setOnClickListener(this);
 
         player1EditText = findViewById(R.id.player1EditText);
         player2EditText = findViewById(R.id.player2EditText);
         hardAICheck = findViewById(R.id.hardAICheck);
+        playerFirstCheck = findViewById(R.id.playerFirstCheck);
 
         //Load values to variables
         player1Name = settings.getString(res.getString(R.string.player1Key), "Player 1");
         player2Name = settings.getString(res.getString(R.string.player2Key), "Player 2");
         hardAI = settings.getBoolean(res.getString(R.string.aiMode), false);
+        playerFirst = settings.getBoolean(res.getString(R.string.playerFirstKey), true);
 
         //Apply loaded values to UI
         player1EditText.setText(player1Name);
         player2EditText.setText(player2Name);
         hardAICheck.setChecked(hardAI);
+        playerFirstCheck.setChecked(playerFirst);
     }
 
     @Override
@@ -64,6 +72,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             editor.putString(res.getString(R.string.player1Key), player1EditText.getText().toString());
             editor.putString(res.getString(R.string.player2Key), player2EditText.getText().toString());
             editor.putBoolean(res.getString(R.string.aiMode), hardAICheck.isChecked());
+            editor.putBoolean(res.getString(R.string.playerFirstKey), playerFirstCheck.isChecked());
             editor.commit();
         }
 
@@ -71,11 +80,5 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         Intent menuIntent = new Intent(this, MenuActivity.class);
         startActivity(menuIntent);
         this.finish();
-    }
-
-    //Save the current settings
-    private void clickSave() {
-
-
     }
 }

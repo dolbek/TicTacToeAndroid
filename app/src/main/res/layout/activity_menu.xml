@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="30dp"
+    android:background="@color/lavender_web"
     android:gravity="center|center_horizontal|center_vertical"
     android:orientation="vertical"
     tools:context=".MenuActivity">
@@ -30,7 +30,8 @@
             style="@style/portraitMenuButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="PLAY" />
+            android:text="PLAY"
+            android:textSize="30sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -45,7 +46,8 @@
             style="@style/portraitMenuButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SETTINGS" />
+            android:text="SETTINGS"
+            android:textSize="30sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -60,7 +62,8 @@
             style="@style/portraitMenuButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SCORES" />
+            android:text="SCORES"
+            android:textSize="30sp" />
     </LinearLayout>
 
 </LinearLayout>

@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Random;
+
 public class GameActivity extends AppCompatActivity implements View.OnClickListener{
 
     SharedPreferences settings;
@@ -52,9 +54,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     final int PLAYER2 = 2;
 
     private boolean aiGame;
-    private boolean hardAi;
+
 
     private int currentPlayer;
+    private boolean gameOver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,22 +81,43 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         setScoreArrays();
 
         //Set up players with saved names
-        currentPlayer = PLAYER1;
         player1Name = settings.getString(res.getString(R.string.player1Key), "Player 1");
         player2Name = settings.getString(res.getString(R.string.player2Key), "Player 2");
         names = new String[]{AI_NAME, player1Name, player2Name};
 
         //Determines AI mode
+        boolean hardAi;
         hardAi = settings.getBoolean(res.getString(R.string.aiMode), false);
         aiGame = getIntent().getBooleanExtra("aiGame", false);
         if (aiGame)
             ai = new MoveGenerator(hardAi);
 
-        //Determines the algorithm used to generate AI moves
-        hardAi = false;
+        //Determine first player
+        boolean playerFirst = settings.getBoolean(res.getString(R.string.playerFirstKey), true);
+        if(playerFirst)
+            currentPlayer = PLAYER1;
+        else
+            determineFirst();
 
         //Set up a blank game board
         setBoard();
+
+        //Starts with AI turn if it is an AI game and it is AI's turn
+        if(aiGame && currentPlayer == AI)
+            aiTurn();
+    }
+
+    //Randomly sets the first player
+    private void determineFirst() {
+        Random rand = new Random();
+        int result = Math.abs(rand.nextInt()) % 2;
+        if(result == PLAYER1)
+            currentPlayer = PLAYER1;
+        else
+            if(aiGame)
+                currentPlayer = AI;
+            else
+                currentPlayer = PLAYER2;
     }
 
     //Set up the board to initial state
@@ -123,10 +147,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
         //Create new board object
         board = new GameBoard(AI, PLAYER1, PLAYER2);
+        gameOver = false;
 
         //Set label
         String label = names[currentPlayer] + "\'s turn";
         turnLabel.setText(label);
+
     }
 
     //Quits the game
@@ -148,7 +174,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                         row = j;
                     }
             playMove(col, row);
-            if (aiGame && currentPlayer == AI)
+            if (!gameOver && aiGame && currentPlayer == AI)
                 aiTurn();
         }
     }
@@ -160,18 +186,20 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             setMoveImage(col, row, currentPlayer);
 
             //Check for game-ending state
-            if (board.checkGameOver())
+            if (board.checkGameOver()) {
+                gameOver = true;
                 winGame(board.getWinner());
-
-            //Set player turn to opponent
-            if (currentPlayer == PLAYER1) {
-                if (aiGame)
-                    setPlayer(AI);
-                else
-                    setPlayer(PLAYER2);
             }
-            else
-                setPlayer(PLAYER1);
+            else {
+                //Set player turn to opponent
+                if (currentPlayer == PLAYER1) {
+                    if (aiGame)
+                        setPlayer(AI);
+                    else
+                        setPlayer(PLAYER2);
+                } else
+                    setPlayer(PLAYER1);
+            }
         }
     }
 
@@ -183,12 +211,34 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         turnLabel.setText(label);
     }
 
+    //Listener for generating AI move
+    public interface Listener<T> {
+        void onResult(T result);
+    }
+
+    private Listener listener;
 
     //Generate and play a move for the AI
     private void aiTurn() {
-        int[] aiMove = ai.generateMove(board, AI);
-        playMove(aiMove[0], aiMove[1]);
+        generateMove(new Listener<int[]>() {
+            @Override
+            public void onResult(int[] result) {
+                playMove(result[0], result[1]);
+            }
+        });
     }
+
+    //Generate a move in a separate thread
+    private void generateMove(Listener<int[]> onResultListener) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                onResultListener.onResult(ai.generateMove(board, AI));
+            }
+        }).start();
+    }
+
+
 
     //Set the correct image for the played move
     private void setMoveImage(int col, int row, int player) {

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="30dp"
+    android:background="@color/lavender_web"
     android:orientation="vertical"
     tools:context=".StandingsActivity">
 
@@ -12,6 +12,7 @@
         android:id="@+id/standingsTitleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:gravity="center"
         android:text="STANDINGS"
         android:textSize="40sp" />
@@ -20,15 +21,16 @@
         android:id="@+id/standingsListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="30dp"
+        android:layout_margin="30dp"
         android:layout_marginBottom="30dp"
-        android:layout_weight="1">
+        android:layout_weight="4">
 
     </ListView>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -37,6 +39,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="BACK"
-            android:textSize="30sp" />
+            android:textSize="25sp" />
     </LinearLayout>
 </LinearLayout>

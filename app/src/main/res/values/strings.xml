@@ -6,11 +6,13 @@
     <string name="aiMode">String key for AI mode</string>
     <string name="namesKey">String key for names</string>
     <string name="scoresKey">String key for scores</string>
-
     <string name="prefKey">String key for shared preferences</string>
+    <string name="playerFirstKey">String key for player first</string>
 
     <string name="playerCount">Game Type:</string>
     <string name="cancel">Cancel</string>
     <string name="twoPlayer">Two Player</string>
     <string name="onePlayer">One Player</string>
+
+    <!-- TODO add strings for hardcoded buttons and labels -->
 </resources>
