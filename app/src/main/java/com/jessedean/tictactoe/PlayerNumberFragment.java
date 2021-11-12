@@ -3,17 +3,12 @@ package com.jessedean.tictactoe;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 public class PlayerNumberFragment extends DialogFragment {
 
@@ -22,24 +17,12 @@ public class PlayerNumberFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.playerCount).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                selectionInterface.cancelSelect(PlayerNumberFragment.this);
-            }
-        })
-        .setNeutralButton(R.string.onePlayer, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                selectionInterface.onePlayerSelect(PlayerNumberFragment.this);
-            }
-        })
-        .setPositiveButton(R.string.twoPlayer, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                selectionInterface.twoPlayerSelect(PlayerNumberFragment.this);
-            }
-        });
+
+        builder.setMessage(R.string.playerCount).setNegativeButton(R.string.cancel, (dialog, which) -> selectionInterface.cancelSelect(PlayerNumberFragment.this))
+
+        .setNeutralButton(R.string.onePlayer, (dialog, which) -> selectionInterface.onePlayerSelect(PlayerNumberFragment.this))
+
+        .setPositiveButton(R.string.twoPlayer, (dialog, which) -> selectionInterface.twoPlayerSelect(PlayerNumberFragment.this));
         return builder.create();
     }
 
@@ -52,7 +35,7 @@ public class PlayerNumberFragment extends DialogFragment {
     SelectionInterface selectionInterface;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
             selectionInterface = (SelectionInterface) context;

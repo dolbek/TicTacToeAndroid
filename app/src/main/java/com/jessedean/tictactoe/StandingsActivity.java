@@ -1,6 +1,11 @@
 package com.jessedean.tictactoe;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,11 +13,13 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.MatrixCursor;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
 
 public class StandingsActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -60,8 +67,9 @@ public class StandingsActivity extends AppCompatActivity implements View.OnClick
 
         MatrixCursor cursor = new MatrixCursor(MATRIX);
 
+        //cursor.addRow(new Object[] {0, NAME, SCORE});
         for(int i = 0; i < scoreNames.length; i++)
-            cursor.addRow(new Object[] {String.valueOf(i+1), scoreNames[i], scores[i]});
+            cursor.addRow(new Object[] {i, scoreNames[i], scores[i]});
 
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.list_two_items, cursor, COLUMNS, LAYOUTS);
 
@@ -69,6 +77,7 @@ public class StandingsActivity extends AppCompatActivity implements View.OnClick
 
     }
 
+    //Switches back to the menu and closes this activity
     @Override
     public void onClick(View v) {
         Intent menuIntent = new Intent(this, MenuActivity.class);

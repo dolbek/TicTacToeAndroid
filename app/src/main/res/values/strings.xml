@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Tic Tac Toe</string>
 
+
+    <!-- String keys for storage -->
     <string name="player1Key">String key for player 1</string>
     <string name="player2Key">String key for player 2</string>
     <string name="aiMode">String key for AI mode</string>
@@ -9,10 +11,36 @@
     <string name="prefKey">String key for shared preferences</string>
     <string name="playerFirstKey">String key for player first</string>
 
+    <!-- Dialogue box for game type -->
     <string name="playerCount">Game Type:</string>
     <string name="cancel">Cancel</string>
     <string name="twoPlayer">Two Player</string>
     <string name="onePlayer">One Player</string>
 
-    <!-- TODO add strings for hardcoded buttons and labels -->
+    <!-- Main menu -->
+    <string name="title">TIC TAC TOE</string>
+    <string name="playButton">PLAY</string>
+    <string name="settingsButton">SETTINGS</string>
+    <string name="scoresButton">SCORES</string>
+
+    <!-- Main game -->
+    <string name="quitButton">QUIT</string>
+
+    <!-- Settings menu -->
+    <string name="settingsTitle">SETTINGS</string>
+    <string name="player1Label">Player 1 Name:</string>
+    <string name="player2Label">Player 2 Name:</string>
+    <string name="aiToggle">Unbeatable AI</string>
+    <string name="firstPlayer">Player 1 Goes First</string>
+    <string name="saveButton">SAVE</string>
+    <string name="cancelButton">CANCEL</string>
+
+    <!-- Standings -->
+    <string name="standingsTitle">STANDINGS</string>
+    <string name="nameLabel">Name:</string>
+    <string name="winLabel">Wins:</string>
+    <string name="backButton">BACK</string>
+    <string name="player1">Player 1</string>
+    <string name="player2">Player 2</string>
+
 </resources>

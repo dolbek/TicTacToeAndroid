@@ -1,8 +1,5 @@
 package com.jessedean.tictactoe;
 
-import android.util.Log;
-import android.widget.Toast;
-
 import java.util.concurrent.Callable;
 
 public class MoveGenerator implements Callable<int[]> {
@@ -178,20 +175,20 @@ public class MoveGenerator implements Callable<int[]> {
             }
 
             if(bestMove[0] < 0) {
-                //Take any corner next
-                if(board.isValidMove(0, 0)) {
+                //Take any corner next, unless it is the last corner
+                if(board.isValidMove(0, 0) && (board.isValidMove(2,2) || board.isValidMove(2,0) || board.isValidMove(0,2))) {
                     bestMove[0] = 0;
                     bestMove[1] = 0;
                 }
-                else if(board.isValidMove(2, 2)) {
+                else if(board.isValidMove(2, 2) && (board.isValidMove(0,0) || board.isValidMove(2,0) || board.isValidMove(0,2))) {
                     bestMove[0] = 2;
                     bestMove[1] = 2;
                 }
-                else if(board.isValidMove(2, 0)) {
+                else if(board.isValidMove(2, 0) && (board.isValidMove(2,2) || board.isValidMove(0,0) || board.isValidMove(0,2))) {
                     bestMove[0] = 2;
                     bestMove[1] = 0;
                 }
-                else if(board.isValidMove(0, 2)) {
+                else if(board.isValidMove(0, 2) && (board.isValidMove(2,2) || board.isValidMove(2,0) || board.isValidMove(0,0))) {
                     bestMove[0] = 0;
                     bestMove[1] = 2;
                 }
@@ -212,6 +209,25 @@ public class MoveGenerator implements Callable<int[]> {
                     else if(board.isValidMove(2, 1)) {
                         bestMove[0] = 2;
                         bestMove[1] = 1;
+                    }
+                    //Take final corner last
+                    if(bestMove[0] < 0) {
+                        if(board.isValidMove(0, 0)) {
+                            bestMove[0] = 0;
+                            bestMove[1] = 0;
+                        }
+                        else if(board.isValidMove(0, 2)) {
+                            bestMove[0] = 0;
+                            bestMove[1] = 2;
+                        }
+                        else if(board.isValidMove(2, 0)) {
+                            bestMove[0] = 2;
+                            bestMove[1] = 0;
+                        }
+                        else if(board.isValidMove(2, 2)) {
+                            bestMove[0] = 2;
+                            bestMove[1] = 2;
+                        }
                     }
                 }
             }

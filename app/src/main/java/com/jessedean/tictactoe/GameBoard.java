@@ -42,9 +42,11 @@ public class GameBoard {
 
         //Check for full board
         for(int i = 0; i < 3 && gameOver; i++)
-            for(int j = 0; j < 3 && gameOver; j++)
-                if(board[i][j] == BLANK || board[j][i] == BLANK)
+            for(int j = 0; j < 3; j++)
+                if(board[i][j] == BLANK || board[j][i] == BLANK) {
                     gameOver = false;
+                    break;
+                }
 
 
         //Check for column win
@@ -85,8 +87,7 @@ public class GameBoard {
         int[][] copy = new int[3][3];
 
         for(int i = 0; i < 3; i++)
-            for(int j = 0; j < 3; j++)
-                copy[i][j] = board[i][j];
+            System.arraycopy(board[i], 0, copy[i], 0, 3);
 
         return copy;
     }

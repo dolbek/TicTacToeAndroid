@@ -14,14 +14,41 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="STANDINGS"
+        android:text="@string/standingsTitle"
         android:textSize="40sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hapticFeedbackEnabled="false"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/nameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/nameLabel"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/winsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/winLabel"
+            android:textSize="20sp" />
+    </LinearLayout>
 
     <ListView
         android:id="@+id/standingsListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_marginBottom="30dp"
         android:layout_weight="4">
 
@@ -38,7 +65,7 @@
             android:id="@+id/standingsBackButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="BACK"
+            android:text="@string/backButton"
             android:textSize="25sp" />
     </LinearLayout>
 </LinearLayout>

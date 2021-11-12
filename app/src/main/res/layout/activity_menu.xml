@@ -15,7 +15,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="TIC TAC TOENAIL"
+        android:text="@string/title"
         android:textSize="40sp" />
 
     <LinearLayout
@@ -30,7 +30,7 @@
             style="@style/portraitMenuButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="PLAY"
+            android:text="@string/playButton"
             android:textSize="30sp" />
     </LinearLayout>
 
@@ -46,7 +46,7 @@
             style="@style/portraitMenuButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SETTINGS"
+            android:text="@string/settingsButton"
             android:textSize="30sp" />
     </LinearLayout>
 
@@ -62,7 +62,7 @@
             style="@style/portraitMenuButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SCORES"
+            android:text="@string/scoresButton"
             android:textSize="30sp" />
     </LinearLayout>
 
