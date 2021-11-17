@@ -1,15 +1,16 @@
 <resources>
     <string name="app_name">Tic Tac Toe</string>
 
-
     <!-- String keys for storage -->
     <string name="player1Key">String key for player 1</string>
     <string name="player2Key">String key for player 2</string>
     <string name="aiMode">String key for AI mode</string>
     <string name="namesKey">String key for names</string>
     <string name="scoresKey">String key for scores</string>
+    <string name="lastPlayedKey">String key for last played</string>
     <string name="prefKey">String key for shared preferences</string>
     <string name="playerFirstKey">String key for player first</string>
+
 
     <!-- Dialogue box for game type -->
     <string name="playerCount">Game Type:</string>
@@ -39,6 +40,7 @@
     <string name="standingsTitle">STANDINGS</string>
     <string name="nameLabel">Name:</string>
     <string name="winLabel">Wins:</string>
+    <string name="playedLabel">Played:</string>
     <string name="backButton">BACK</string>
     <string name="player1">Player 1</string>
     <string name="player2">Player 2</string>

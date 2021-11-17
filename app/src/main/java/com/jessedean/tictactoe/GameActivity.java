@@ -6,13 +6,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -25,6 +28,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences.Editor editor;
 
     Resources res;
+
+    //Separator for stored strings
+    final String SEP = "⛏";
 
     Button quitButton;
     ImageView grid1_1;
@@ -47,6 +53,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     String scoreNamesString;
     String[] scores;
     String scoresString;
+    String[] lastPlayed;
+    String lastPlayedString;
 
     TextView turnLabel;
 
@@ -79,6 +87,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         //Load the score strings
         scoreNamesString = settings.getString(res.getString(R.string.namesKey), "");
         scoresString = settings.getString(res.getString(R.string.scoresKey), "");
+        lastPlayedString = settings.getString(res.getString(R.string.lastPlayedKey), "");
 
         //Set the score strings up in arrays for ease of use
         setScoreArrays();
@@ -251,16 +260,35 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
             boolean updated = false;
 
+            int loser = -1;
+            if(aiGame) {
+                if(winner == AI)
+                    loser = PLAYER1;
+                else
+                    loser = AI;
+            }
+            else {
+                if(winner == PLAYER1)
+                    loser = PLAYER2;
+                else
+                    loser = PLAYER1;
+            }
+
+            Date date = new Date();
+            String dateString = DateFormat.format("d-MM-yyyy HH:mm", date).toString();
+
             //Check if the player is already in the scoreboard. Increment their score if they are
             for (int i = 0; i < scoreNames.length && !updated; i++) {
                 if (scoreNames[i].equals(names[winner])) {
                     scores[i] = String.valueOf(Integer.parseInt(scores[i]) + 1);
+                    lastPlayed[i] = dateString;
                     updated = true;
                     //Otherwise, add the player at the first empty spot (we assume we have checked
                     //all the names when we reach a null entry)
                 } else if (scoreNames[i] == null) {
                     scoreNames[i] = names[currentPlayer];
                     scores[i] = "1";
+                    lastPlayed[i] = dateString;
                     updated = true;
                 }
             }
@@ -272,8 +300,35 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     j++;
                 scoreNames[j] = names[winner];
                 scores[j] = "1";
+                lastPlayed[j] = dateString;
             }
 
+            updated = false;
+
+            //Update last played stat for loser as well
+            for (int i = 0; i < scoreNames.length && !updated; i++) {
+                if (scoreNames[i] != null && scoreNames[i].equals(names[loser])) {
+                    lastPlayed[i] = dateString;
+                    updated = true;
+                    //Otherwise, add the player at the first empty spot (we assume we have checked
+                    //all the names when we reach a null entry)
+                } else if (scoreNames[i] == null) {
+                    scoreNames[i] = names[loser];
+                    scores[i] = "0";
+                    lastPlayed[i] = dateString;
+                    updated = true;
+                }
+            }
+            //If they are not in the array and there is no empty spot, expand the arrays and add a new entry
+            if (!updated) {
+                increaseScoreArraySize();
+                int j = 0;
+                while (scoreNames[j] != null)
+                    j++;
+                scoreNames[j] = names[loser];
+                scores[j] = "0";
+                lastPlayed[j] = dateString;
+            }
             currentPlayer = -1;
             storeScoreArrays();
         }
@@ -286,19 +341,23 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private void increaseScoreArraySize() {
         String[] newNames = new String[scoreNames.length * 2];
         String[] newScores = new String[scoreNames.length * 2];
+        String[] newLastPlayed = new String[lastPlayed.length * 2];
 
         for (int i = 0; i < scoreNames.length; i++) {
             newNames[i] = scoreNames[i];
             newScores[i] = scores[i];
+            newLastPlayed[i] = lastPlayed[i];
         }
         scoreNames = newNames;
         scores = newScores;
+        lastPlayed = newLastPlayed;
     }
 
     //Translates the stored strings of scores into arrays for ease of use
     private void setScoreArrays() {
-        scoreNames = scoreNamesString.split(",");
-        scores = scoresString.split(",");
+        scoreNames = scoreNamesString.split(SEP);
+        scores = scoresString.split(SEP);
+        lastPlayed = lastPlayedString.split(SEP);
     }
 
     //Stores the score arrays as strings in the shared preferences
@@ -306,15 +365,18 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         //Build the arrays into strings
         StringBuilder nameSB = new StringBuilder();
         StringBuilder scoreSB = new StringBuilder();
+        StringBuilder lastPlayedSB = new StringBuilder();
         for (int i = 0; i < scoreNames.length; i++) {
             if(scoreNames[i] != null) {
-                nameSB.append(scoreNames[i]).append(",");
-                scoreSB.append(scores[i]).append(",");
+                nameSB.append(scoreNames[i]).append(SEP);
+                scoreSB.append(scores[i]).append(SEP);
+                lastPlayedSB.append(lastPlayed[i]).append(SEP);
             }
         }
         //Store the built strings in the shared preferences
         editor.putString(res.getString(R.string.namesKey), nameSB.toString());
         editor.putString(res.getString(R.string.scoresKey), scoreSB.toString());
+        editor.putString(res.getString(R.string.lastPlayedKey), lastPlayedSB.toString());
         editor.commit();
     }
 }
